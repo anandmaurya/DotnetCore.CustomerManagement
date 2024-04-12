@@ -1,0 +1,168 @@
+﻿@using System.Text
+@{
+    ViewData["Title"] = "Create Customer Page";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    // Inject IConfiguration into the view
+    var configuration = (IConfiguration)ViewContext.HttpContext.RequestServices.GetService(typeof(IConfiguration));
+
+    // Read the API base URL from appsettings.json
+    var apiBaseUrl = configuration["ApiSettings:APIBaseUrl"];
+}
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <h2 class="text-center mb-4">Customer Registration</h2>
+            <div class="form-group">
+                <label for="name">First name</label>
+                <input type="text" class="form-control" id="firstName" name="firstName" required>
+                <span id="firstNameValidate"></span>
+            </div>
+            <div class="form-group">
+                <label for="name">Last name</label>
+                <input type="text" class="form-control" id="lastName" name="lastName" required>
+                <span id="lastNameValidate"></span>
+            </div>
+            <div class="form-group">
+                <label for="email">Email</label>
+                <input type="email" class="form-control" id="email" name="email" required>
+                <span id="emailValidate"></span>
+            </div>
+           @*  <div class="form-group">
+                <label for="loginUserName">Login user</label>
+                <input type="text" class="form-control" id="loginUserName" name="loginUserName" required>
+                <span id="userNameValidate"></span>
+            </div> *@
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input type="text" class="form-control" id="password" name="password" required>
+                @* <span id="userNameValidate"></span> *@
+            </div>
+            <div class="form-group">
+                <label for="phone">Phone Number</label>
+                <input type="tel" class="form-control" id="phone" name="phone" pattern="[0-9]{10}" required>
+                <span id="phoneValidate"></span>
+                <small class="form-text text-muted">Please enter 10 digits phone number.</small>
+            </div>
+            <button id="registerBtn" type="button" class="btn btn-primary btn-block">Create</button>
+        </div>
+    </div>
+</div>
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+<script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+<script src="~/js/site.js" asp-append-version="true"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.0.0/crypto-js.min.js"></script>
+
+
+@section Scripts {
+    <script type="text/javascript">
+        $(document).ready(function () {
+
+            $('#registerBtn').click(function (e) {
+                debugger;
+                e.preventDefault(); // prevent default form submission
+
+                var customer = {
+                    FirstName: $('#firstName').val(),
+                    LastName: $('#lastName').val(),
+                    Email: $('#email').val(),
+                    PhoneNumber: $('#phone').val(),
+                    // LoginUser: $('#loginUserName').val(),
+                    Password: $('#password').val()
+                };
+                // Convert payload to JSON string
+                debugger;
+                if (validateForm(customer)) {
+
+                    const apiURL = '/Customer/Create';
+
+                    $.ajax({
+                        url: apiURL,
+                        type: 'POST',
+                        contentType: 'application/json',
+                        data: JSON.stringify(customer),
+                        success: function (response) {
+                            if (!response.result) {
+                                alert(response.message);
+                            }
+                            else {
+                                //success redirect to login Page
+                                alert(response.message);
+                                window.location = '/Customer/Index';
+
+                            }
+                            console.log(response);
+                            // Handle success, redirect to another page, show a success message, etc.
+                        },
+                        error: function (xhr, textStatus, errorThrown) {
+                            alert(xhr.responseJSON.message);
+                            // Handle error, display error message, etc.
+                        }
+                    });
+                }
+
+            });
+        });
+        // Function to encrypt using AES algorithm
+
+        function validateForm(formData) {
+            debugger;
+            let validateName = /^[a-zA-Z]+$/;
+            let validateEmail = /^([a-zA-Z0-9_\-\.]+)@@([a - zA - Z0 - 9_\-\.] +)\.([a-zA-Z]{2,5})$/;
+            let validateNumber = /^[0-9]+$/;
+
+            let isValid = true;
+
+            if (!validateName.test(formData.FirstName)) {
+                if (formData.FirstName == '') {
+                    document.getElementById("firstNameValidate").innerHTML = "Please enter your first Name";
+                }
+                // else {
+                //     document.getElementById("firstNameValidate").innerHTML = "Please enter alphabets only";
+                // }
+                document.getElementById("firstNameValidate").style.color = "red";
+                isValid = false;
+            }w
+
+            if (!validateName.test(formData.LastName)) {
+                if (formData.LastName == '') {
+                    document.getElementById("lastNameValidate").innerHTML = "Please enter your last Name";
+                } 
+                // else 
+                // {
+                //     document.getElementById("lastNameValidate").innerHTML = "Please enter alphabets only";
+                // }
+                document.getElementById("lastNameValidate").style.color = "red";
+                isValid = false;
+            }
+
+            if (!validateEmail.test(formData.Email)) {
+                if (formData.Email == '') {
+                    document.getElementById("emailValidate").innerHTML = "Please enter your Email";
+                } 
+                // else 
+                // {
+                //     document.getElementById("emailValidate").innerHTML = "Please enter Email Format: 'example@gmail.com'";
+                // }
+                document.getElementById("emailValidate").style.color = "red";
+                isValid = false;
+            }
+
+            if (!validateNumber.test(formData.PhoneNumber)) {
+                if (formData.PhoneNumber == '') {
+                    document.getElementById("phoneValidate").innerHTML = "Please enter your Phone Number";
+                }
+                // else {
+                //     document.getElementById("phoneValidate").innerHTML = "Please enter Numbers only";
+                // }
+                document.getElementById("phoneValidate").style.color = "red";
+                isValid = false;
+            }
+
+            return isValid;
+
+        }
+
+
+    </script>
+}

@@ -1,0 +1,250 @@
+﻿@{
+    ViewData["Title"] = "CustomerList Page";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var configuration = (IConfiguration)ViewContext.HttpContext.RequestServices.GetService(typeof(IConfiguration));
+    var apiBaseUrl = configuration["ApiSettings:APIBaseUrl"];
+}
+
+<div class="container">
+    <h2 class="mb-2">Customer List</h2>
+    <a asp-action="Create" class="btn btn-outline-primary btn-sm mb-2 m-2 rounded-3"> Add Customer </a>
+    <div class="table-responsive">
+        <table class="table table-striped table-bordered">
+            <thead class="thead-dark">
+                <tr>
+                    <th>Sr no</th>
+                    <th>First Name</th>
+                    <th>Last Name</th>
+                    <th>Phone Number</th>
+                    <th>Email</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody id="customerTableBody">
+            </tbody>
+        </table>
+    </div>
+
+
+    <div id="editCustomerModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="editCustomerModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="editCustomerModalLabel">Edit Customer</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="editCustomerForm">
+                        <input type="hidden" class="form-label" id="customerId" />
+                        <div class="mb-3">
+                            <label for="editFirstName" class="form-label"> First Name </label>
+                            <input type="text" class="form-control" id="editFirstName" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="editLastName" class="form-label"> Last Name </label>
+                            <input type="text" class="form-control" id="editLastName" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="editPhoneNumber" class="form-label"> Phone Number </label>
+                            <input type="text" class="form-control" id="editPhoneNumber" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="editCustomerEmail" class="form-label"> Email </label>
+                            <input type="email" class="form-control" id="editCustomerEmail" required>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" onclick="updateCustomer()">Update</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            debugger;
+            const apiURL = '@apiBaseUrl/api/Customers/GetCustomer';
+
+            $.ajax({
+                url: apiURL,
+                type: 'GET',
+                dataType: 'json',
+                success: function (data) {
+                    if (data && data.length > 0) {
+                        var tableBody = $('#customerTableBody');
+                        tableBody.empty();
+
+                        data.forEach(function (customer, index) {
+                            var row = '<tr>' +
+                                '<td>' + ++index + '</td>' +
+                                '<td>' + customer.firstName + '</td>' +
+                                '<td>' + customer.lastName + '</td>' +
+                                '<td>' + customer.phoneNumber + '</td>' +
+                                '<td>' + customer.email + '</td>' +
+                                '<td>' +
+                                '<button class="btn btn-primary btn-sm m-1 rounded-3" id="cust_' + customer.id + '" onclick="editCustomer(' + customer.id + ')">Edit</button>' +
+                                '<button class="btn btn-danger btn-sm rounded-3" onclick="deleteCustomer(' + customer.id + ')">Delete</button>' +
+                                '</td>' +
+                                '</tr>';
+                            tableBody.append(row);
+                        });
+                    } else {
+                        console.log('No data found');
+                    }
+                },
+                error: function (xhr, textStatus, errorThrown) {
+
+                    console.error('Error:', errorThrown);
+                }
+            });
+        });
+
+    </script>
+
+    <script>
+
+        const apiBaseUrl = '@apiBaseUrl/api/Customers/GetCustomerById/';
+
+        function editCustomer(customerId) {
+
+
+            var editApiUrl = apiBaseUrl + customerId;
+            debugger;
+            $.ajax({
+                url: editApiUrl,
+                type: 'GET',
+                dataType: 'json',
+                success: function (customer) {
+                    console.log(customer);
+                    document.getElementById('customerId').value = customer.id;
+                    document.getElementById('editFirstName').value = customer.firstName;
+                    document.getElementById('editLastName').value = customer.lastName;
+                    document.getElementById('editPhoneNumber').value = customer.phoneNumber;
+                    document.getElementById('editCustomerEmail').value = customer.email;
+
+                    var editCustomerModal = new bootstrap.Modal(document.getElementById('editCustomerModal'));
+                    editCustomerModal.show();
+
+                },
+                error: function (xhr, textStatus, errorThrown) {
+                    console.error('Error:', errorThrown);
+                }
+            });
+        }
+
+        function updateCustomer() {
+            debugger;
+            var formData = {
+                id: $('#customerId').val(),
+                FirstName: $('#editFirstName').val(),
+                LastName: $('#editLastName').val(),
+                Email: $('#editCustomerEmail').val(),
+                PhoneNumber: $('#editPhoneNumber').val()
+            };
+            validateForm(formData);
+            const apiURL = '@apiBaseUrl/api/Customers/UpdateCustomer/' + formData.id;
+            $.ajax({
+                url: apiURL,
+                type: 'POST',
+                contentType: 'application/json',
+                data: JSON.stringify(formData),
+                success: function (response) {
+                    if (!response.result) {
+                        alert(response.message);
+                    }
+                    else {
+                        alert(response.message);
+                        window.location = '/Customer/Index';
+
+                    }
+                    console.log(response);
+                },
+                error: function (xhr, textStatus, errorThrown) {
+                    alert(xhr.responseJSON.message);
+                }
+            });
+        }
+
+        function deleteCustomer(customerId) {
+            debugger;
+            const apiURL = '@apiBaseUrl/api/Customers/DeleteCustomer/' + customerId;
+
+            $.ajax({
+                url: apiURL,
+                type: 'Delete',
+                contentType: 'application/json',
+                success: function (response) {
+                    if (!response.result) {
+                        alert(response.message);
+                    }
+                    else {
+                        alert(response.message);
+                        window.location = '/Customer/Index';
+
+                    }
+                    console.log(response);
+                },
+                error: function (xhr, textStatus, errorThrown) {
+                    alert(xhr.responseJSON.message);
+                }
+            });
+        }
+
+        function validateForm(formData) {
+            debugger;
+            let validateName = /^[a-zA-Z]+$/;
+            let validateEmail = /^([a-zA-Z0-9_\-\.]+)@@([a - zA - Z0 - 9_\-\.] +)\.([a-zA-Z]{2,5})$/;
+            let validateNumber = /^[0-9]+$/;
+
+            let isValid = true;
+
+            if (!validateName.test(formData.FirstName)) {
+                if (formData.FirstName == '') {
+                    document.getElementById("firstNameValidate").innerHTML = "Please enter your first Name";
+                } else {
+                    document.getElementById("firstNameValidate").innerHTML = "Please enter alphabets only";
+                }
+                document.getElementById("firstNameValidate").style.color = "red";
+                isValid = false;
+            }
+
+            if (!validateName.test(formData.LastName)) {
+                if (formData.LastName == '') {
+                    document.getElementById("lastNameValidate").innerHTML = "Please enter your last Name";
+                } else {
+                    document.getElementById("lastNameValidate").innerHTML = "Please enter alphabets only";
+                }
+                document.getElementById("lastNameValidate").style.color = "red";
+                isValid = false;
+            }
+
+            if (!validateEmail.test(formData.Email)) {
+                if (formData.Email == '') {
+                    document.getElementById("emailValidate").innerHTML = "Please enter your Email";
+                } else {
+                    document.getElementById("emailValidate").innerHTML = "Please enter Email Format: 'example@gmail.com'";
+                }
+                document.getElementById("emailValidate").style.color = "red";
+                isValid = false;
+            }
+
+            if (!validateNumber.test(formData.PhoneNumber)) {
+                if (formData.PhoneNumber == '') {
+                    document.getElementById("phoneValidate").innerHTML = "Please enter your Phone Number";
+                } else {
+                    document.getElementById("phoneValidate").innerHTML = "Please enter Numbers only";
+                }
+                document.getElementById("phoneValidate").style.color = "red";
+                isValid = false;
+            }
+
+            return isValid;
+
+        }
+
+    </script>
+}

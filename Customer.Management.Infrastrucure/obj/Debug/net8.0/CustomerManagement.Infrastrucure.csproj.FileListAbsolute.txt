@@ -1,0 +1,36 @@
+D:\COMPANY'S PROJECT\CustomerManagement\CustomerManagement\Customer.Management.Service\obj\Debug\net8.0\CustomerManagement.Infrastrucure.csproj.AssemblyReference.cache
+D:\COMPANY'S PROJECT\CustomerManagement\CustomerManagement\Customer.Management.Service\obj\Debug\net8.0\CustomerManagement.Infrastrucure.GeneratedMSBuildEditorConfig.editorconfig
+D:\COMPANY'S PROJECT\CustomerManagement\CustomerManagement\Customer.Management.Service\obj\Debug\net8.0\CustomerManagement.Infrastrucure.AssemblyInfoInputs.cache
+D:\COMPANY'S PROJECT\CustomerManagement\CustomerManagement\Customer.Management.Service\obj\Debug\net8.0\CustomerManagement.Infrastrucure.AssemblyInfo.cs
+D:\COMPANY'S PROJECT\CustomerManagement\CustomerManagement\Customer.Management.Service\obj\Debug\net8.0\CustomerManagement.Infrastrucure.csproj.CoreCompileInputs.cache
+D:\COMPANY'S PROJECT\CustomerManagement\CustomerManagement\Customer.Management.Service\bin\Debug\net8.0\CustomerManagement.Infrastrucure.deps.json
+D:\COMPANY'S PROJECT\CustomerManagement\CustomerManagement\Customer.Management.Service\bin\Debug\net8.0\CustomerManagement.Infrastrucure.dll
+D:\COMPANY'S PROJECT\CustomerManagement\CustomerManagement\Customer.Management.Service\bin\Debug\net8.0\CustomerManagement.Infrastrucure.pdb
+D:\COMPANY'S PROJECT\CustomerManagement\CustomerManagement\Customer.Management.Service\obj\Debug\net8.0\CustomerManagement.Infrastrucure.dll
+D:\COMPANY'S PROJECT\CustomerManagement\CustomerManagement\Customer.Management.Service\obj\Debug\net8.0\refint\CustomerManagement.Infrastrucure.dll
+D:\COMPANY'S PROJECT\CustomerManagement\CustomerManagement\Customer.Management.Service\obj\Debug\net8.0\CustomerManagement.Infrastrucure.pdb
+D:\COMPANY'S PROJECT\CustomerManagement\CustomerManagement\Customer.Management.Service\obj\Debug\net8.0\ref\CustomerManagement.Infrastrucure.dll
+D:\Anand\10 april 2024\CustomerManagement\CustomerManagement\Customer.Management.Service\bin\Debug\net8.0\CustomerManagement.Infrastrucure.deps.json
+D:\Anand\10 april 2024\CustomerManagement\CustomerManagement\Customer.Management.Service\bin\Debug\net8.0\CustomerManagement.Infrastrucure.dll
+D:\Anand\10 april 2024\CustomerManagement\CustomerManagement\Customer.Management.Service\bin\Debug\net8.0\CustomerManagement.Infrastrucure.pdb
+D:\Anand\10 april 2024\CustomerManagement\CustomerManagement\Customer.Management.Service\obj\Debug\net8.0\CustomerManagement.Infrastrucure.csproj.AssemblyReference.cache
+D:\Anand\10 april 2024\CustomerManagement\CustomerManagement\Customer.Management.Service\obj\Debug\net8.0\CustomerManagement.Infrastrucure.GeneratedMSBuildEditorConfig.editorconfig
+D:\Anand\10 april 2024\CustomerManagement\CustomerManagement\Customer.Management.Service\obj\Debug\net8.0\CustomerManagement.Infrastrucure.AssemblyInfoInputs.cache
+D:\Anand\10 april 2024\CustomerManagement\CustomerManagement\Customer.Management.Service\obj\Debug\net8.0\CustomerManagement.Infrastrucure.AssemblyInfo.cs
+D:\Anand\10 april 2024\CustomerManagement\CustomerManagement\Customer.Management.Service\obj\Debug\net8.0\CustomerManagement.Infrastrucure.csproj.CoreCompileInputs.cache
+D:\Anand\10 april 2024\CustomerManagement\CustomerManagement\Customer.Management.Service\obj\Debug\net8.0\CustomerManagement.Infrastrucure.dll
+D:\Anand\10 april 2024\CustomerManagement\CustomerManagement\Customer.Management.Service\obj\Debug\net8.0\refint\CustomerManagement.Infrastrucure.dll
+D:\Anand\10 april 2024\CustomerManagement\CustomerManagement\Customer.Management.Service\obj\Debug\net8.0\CustomerManagement.Infrastrucure.pdb
+D:\Anand\10 april 2024\CustomerManagement\CustomerManagement\Customer.Management.Service\obj\Debug\net8.0\ref\CustomerManagement.Infrastrucure.dll
+D:\Anand\10 april 2024\CustomerManagement\CustomerManagement\Customer.Management.Infrastrucure\bin\Debug\net8.0\CustomerManagement.Infrastrucure.deps.json
+D:\Anand\10 april 2024\CustomerManagement\CustomerManagement\Customer.Management.Infrastrucure\bin\Debug\net8.0\CustomerManagement.Infrastrucure.dll
+D:\Anand\10 april 2024\CustomerManagement\CustomerManagement\Customer.Management.Infrastrucure\bin\Debug\net8.0\CustomerManagement.Infrastrucure.pdb
+D:\Anand\10 april 2024\CustomerManagement\CustomerManagement\Customer.Management.Infrastrucure\obj\Debug\net8.0\CustomerManagement.Infrastrucure.csproj.AssemblyReference.cache
+D:\Anand\10 april 2024\CustomerManagement\CustomerManagement\Customer.Management.Infrastrucure\obj\Debug\net8.0\CustomerManagement.Infrastrucure.GeneratedMSBuildEditorConfig.editorconfig
+D:\Anand\10 april 2024\CustomerManagement\CustomerManagement\Customer.Management.Infrastrucure\obj\Debug\net8.0\CustomerManagement.Infrastrucure.AssemblyInfoInputs.cache
+D:\Anand\10 april 2024\CustomerManagement\CustomerManagement\Customer.Management.Infrastrucure\obj\Debug\net8.0\CustomerManagement.Infrastrucure.AssemblyInfo.cs
+D:\Anand\10 april 2024\CustomerManagement\CustomerManagement\Customer.Management.Infrastrucure\obj\Debug\net8.0\CustomerManagement.Infrastrucure.csproj.CoreCompileInputs.cache
+D:\Anand\10 april 2024\CustomerManagement\CustomerManagement\Customer.Management.Infrastrucure\obj\Debug\net8.0\CustomerManagement.Infrastrucure.dll
+D:\Anand\10 april 2024\CustomerManagement\CustomerManagement\Customer.Management.Infrastrucure\obj\Debug\net8.0\refint\CustomerManagement.Infrastrucure.dll
+D:\Anand\10 april 2024\CustomerManagement\CustomerManagement\Customer.Management.Infrastrucure\obj\Debug\net8.0\CustomerManagement.Infrastrucure.pdb
+D:\Anand\10 april 2024\CustomerManagement\CustomerManagement\Customer.Management.Infrastrucure\obj\Debug\net8.0\ref\CustomerManagement.Infrastrucure.dll

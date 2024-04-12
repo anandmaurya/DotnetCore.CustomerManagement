@@ -1,0 +1,88 @@
+﻿@{
+    ViewData["Title"] = "Login Page";
+    Layout = null;
+    // Inject IConfiguration into the view
+    var configuration = (IConfiguration)ViewContext.HttpContext.RequestServices.GetService(typeof(IConfiguration));
+
+    // Read the API base URL from appsettings.json
+    var apiBaseUrl = configuration["ApiSettings:APIBaseUrl"];
+}
+@await Html.PartialAsync("~/Views/Shared/_CDN.cshtml")
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header bg-primary text-white">
+                    <h4 class="mb-0">Login</h4>
+                </div>
+                <div class="card-body">
+                    <div class="form-group">
+                        <label for="username">Username</label>
+                        <input type="text" class="form-control" id="loginUsername" placeholder="Enter username">
+                    </div>
+                    <div class="form-group">
+                        <label for="password">Password</label>
+                        <input type="password" class="form-control" id="password" placeholder="Enter password">
+                    </div>
+                    <button id="loginBtn" type="button" class="btn btn-primary">Login</button>
+                    <a asp-controller="Account" asp-action="Registration">Register</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+<script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+<script src="~/js/site.js" asp-append-version="true"></script>
+
+<script type="text/javascript">
+
+    $(document).ready(function () {
+
+        $('#loginBtn').click(function (e) {
+            debugger;
+            e.preventDefault(); // prevent default form submission
+
+            var formData = {
+                UserName: $('#loginUsername').val(),
+                Password: $('#password').val(),
+            };
+            const loginUrl = '@apiBaseUrl/api/Authentication/Login';
+            $.ajax({
+                url: loginUrl,
+                type: 'POST',
+                contentType: 'application/json',
+                data: JSON.stringify(formData),
+                success: function (response) {
+                    if (!response.result) {
+                        // Set session item
+                        console.log(user);
+                    }
+                    else {
+                        //success redirect to Dashboard Page
+                        setSessionItem('jwtToken', response.token);
+                        setSessionItem('expiration', response.expiration);
+                        window.location = '/Customer/Index';
+
+                    }
+                    console.log(response);
+                    // Handle success, redirect to another page, show a success message, etc.
+                },
+                error: function (xhr, textStatus, errorThrown) {
+                    alert(xhr.responseJSON.message);
+                    // Handle error, display error message, etc.
+                }
+            });
+        });
+
+        function setSessionItem(key, value) {
+            debugger;
+            try {
+                sessionStorage.setItem(key, JSON.stringify(value));
+            } catch (error) {
+                console.error('Error setting session item:', error);
+            }
+        }
+    });
+</script>

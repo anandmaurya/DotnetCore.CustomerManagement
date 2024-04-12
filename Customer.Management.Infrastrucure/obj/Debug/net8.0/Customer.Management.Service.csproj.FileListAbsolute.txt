@@ -1,0 +1,12 @@
+D:\Anand\CustomerManagement\Customer.Management.Service\bin\Debug\net8.0\Customer.Management.Service.deps.json
+D:\Anand\CustomerManagement\Customer.Management.Service\bin\Debug\net8.0\Customer.Management.Service.dll
+D:\Anand\CustomerManagement\Customer.Management.Service\bin\Debug\net8.0\Customer.Management.Service.pdb
+D:\Anand\CustomerManagement\Customer.Management.Service\obj\Debug\net8.0\Customer.Management.Service.csproj.AssemblyReference.cache
+D:\Anand\CustomerManagement\Customer.Management.Service\obj\Debug\net8.0\Customer.Management.Service.GeneratedMSBuildEditorConfig.editorconfig
+D:\Anand\CustomerManagement\Customer.Management.Service\obj\Debug\net8.0\Customer.Management.Service.AssemblyInfoInputs.cache
+D:\Anand\CustomerManagement\Customer.Management.Service\obj\Debug\net8.0\Customer.Management.Service.AssemblyInfo.cs
+D:\Anand\CustomerManagement\Customer.Management.Service\obj\Debug\net8.0\Customer.Management.Service.csproj.CoreCompileInputs.cache
+D:\Anand\CustomerManagement\Customer.Management.Service\obj\Debug\net8.0\Customer.Management.Service.dll
+D:\Anand\CustomerManagement\Customer.Management.Service\obj\Debug\net8.0\refint\Customer.Management.Service.dll
+D:\Anand\CustomerManagement\Customer.Management.Service\obj\Debug\net8.0\Customer.Management.Service.pdb
+D:\Anand\CustomerManagement\Customer.Management.Service\obj\Debug\net8.0\ref\Customer.Management.Service.dll

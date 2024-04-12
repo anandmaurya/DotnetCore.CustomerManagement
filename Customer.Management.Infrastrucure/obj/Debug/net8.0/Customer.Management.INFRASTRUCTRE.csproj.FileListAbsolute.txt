@@ -1,0 +1,17 @@
+D:\Anand\CustomerManagement\CustomerManagement\Customer.Management.Service\bin\Debug\net8.0\Customer.Management.INFRASTRUCTRE.deps.json
+D:\Anand\CustomerManagement\CustomerManagement\Customer.Management.Service\bin\Debug\net8.0\Customer.Management.INFRASTRUCTRE.dll
+D:\Anand\CustomerManagement\CustomerManagement\Customer.Management.Service\bin\Debug\net8.0\Customer.Management.INFRASTRUCTRE.pdb
+D:\Anand\CustomerManagement\CustomerManagement\Customer.Management.Service\obj\Debug\net8.0\Customer.Management.INFRASTRUCTRE.csproj.AssemblyReference.cache
+D:\Anand\CustomerManagement\CustomerManagement\Customer.Management.Service\obj\Debug\net8.0\Customer.Management.INFRASTRUCTRE.GeneratedMSBuildEditorConfig.editorconfig
+D:\Anand\CustomerManagement\CustomerManagement\Customer.Management.Service\obj\Debug\net8.0\Customer.Management.INFRASTRUCTRE.AssemblyInfoInputs.cache
+D:\Anand\CustomerManagement\CustomerManagement\Customer.Management.Service\obj\Debug\net8.0\Customer.Management.INFRASTRUCTRE.AssemblyInfo.cs
+D:\Anand\CustomerManagement\CustomerManagement\Customer.Management.Service\obj\Debug\net8.0\Customer.Management.INFRASTRUCTRE.csproj.CoreCompileInputs.cache
+D:\Anand\CustomerManagement\CustomerManagement\Customer.Management.Service\obj\Debug\net8.0\Customer.Management.INFRASTRUCTRE.dll
+D:\Anand\CustomerManagement\CustomerManagement\Customer.Management.Service\obj\Debug\net8.0\refint\Customer.Management.INFRASTRUCTRE.dll
+D:\Anand\CustomerManagement\CustomerManagement\Customer.Management.Service\obj\Debug\net8.0\Customer.Management.INFRASTRUCTRE.pdb
+D:\Anand\CustomerManagement\CustomerManagement\Customer.Management.Service\obj\Debug\net8.0\ref\Customer.Management.INFRASTRUCTRE.dll
+D:\COMPANY'S PROJECT\CustomerManagement\CustomerManagement\Customer.Management.Service\obj\Debug\net8.0\Customer.Management.INFRASTRUCTRE.csproj.AssemblyReference.cache
+D:\COMPANY'S PROJECT\CustomerManagement\CustomerManagement\Customer.Management.Service\obj\Debug\net8.0\Customer.Management.INFRASTRUCTRE.GeneratedMSBuildEditorConfig.editorconfig
+D:\COMPANY'S PROJECT\CustomerManagement\CustomerManagement\Customer.Management.Service\obj\Debug\net8.0\Customer.Management.INFRASTRUCTRE.AssemblyInfoInputs.cache
+D:\COMPANY'S PROJECT\CustomerManagement\CustomerManagement\Customer.Management.Service\obj\Debug\net8.0\Customer.Management.INFRASTRUCTRE.AssemblyInfo.cs
+D:\COMPANY'S PROJECT\CustomerManagement\CustomerManagement\Customer.Management.Service\obj\Debug\net8.0\Customer.Management.INFRASTRUCTRE.csproj.CoreCompileInputs.cache
