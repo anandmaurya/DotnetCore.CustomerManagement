@@ -112,7 +112,6 @@ namespace CustomerManagement.Infrastrucure.Services.Authentication
                         var errorMessage = result.Errors.FirstOrDefault()?.Description;
                         return new Response { Result = false, Message = errorMessage };
                     }
-
                     // Add role Customer
                     await _userManager.AddToRoleAsync(user, role);
                     return new Response { Result = true, Message = "Customer Created Successfully." };
