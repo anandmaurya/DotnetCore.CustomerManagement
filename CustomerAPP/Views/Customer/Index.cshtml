@@ -5,17 +5,20 @@
     var apiBaseUrl = configuration["ApiSettings:APIBaseUrl"];
 }
 
+
 <div class="container">
     <h2 class="mb-2">Customer List</h2>
-    <a asp-action="Create" class="btn btn-outline-primary btn-sm mb-2 m-2 rounded-3"> Add Customer </a>
+    <div class="d-flex justify-content-end mb-2">
+        <a asp-action="Create" class="btn btn-outline-primary btn-sm rounded-3"> <i class="bi bi-plus-circle"></i> Add Customer </a>
+    </div>
     <div class="table-responsive">
-        <table class="table table-striped table-bordered">
+        <table id="example" class="display" style="width:100%">
             <thead class="thead-dark">
                 <tr>
-                    <th>Sr no</th>
+                    <th class="text-start">Sr no</th>
                     <th>First Name</th>
                     <th>Last Name</th>
-                    <th>Phone Number</th>
+                    <th class="text-start">Phone Number</th>
                     <th>Email</th>
                     <th>Actions</th>
                 </tr>
@@ -39,18 +42,22 @@
                         <div class="mb-3">
                             <label for="editFirstName" class="form-label"> First Name </label>
                             <input type="text" class="form-control" id="editFirstName" required>
+                <span id="firstNameValidate"></span>
                         </div>
                         <div class="mb-3">
                             <label for="editLastName" class="form-label"> Last Name </label>
                             <input type="text" class="form-control" id="editLastName" required>
+                <span id="lastNameValidate"></span>
                         </div>
                         <div class="mb-3">
                             <label for="editPhoneNumber" class="form-label"> Phone Number </label>
                             <input type="text" class="form-control" id="editPhoneNumber" required>
+                            <span id="phoneValidate"></span>
                         </div>
                         <div class="mb-3">
                             <label for="editCustomerEmail" class="form-label"> Email </label>
                             <input type="email" class="form-control" id="editCustomerEmail" required>
+                            <span id="emailValidate"></span>
                         </div>
                     </form>
                 </div>
@@ -80,10 +87,10 @@
 
                         data.forEach(function (customer, index) {
                             var row = '<tr>' +
-                                '<td>' + ++index + '</td>' +
+                                '<td class="text-start">' + ++index + '</td>' +
                                 '<td>' + customer.firstName + '</td>' +
                                 '<td>' + customer.lastName + '</td>' +
-                                '<td>' + customer.phoneNumber + '</td>' +
+                                '<td class="text-start">' + customer.phoneNumber + '</td>' +
                                 '<td>' + customer.email + '</td>' +
                                 '<td>' +
                                 '<button class="btn btn-primary btn-sm m-1 rounded-3" id="cust_' + customer.id + '" onclick="editCustomer(' + customer.id + ')">Edit</button>' +
@@ -92,6 +99,9 @@
                                 '</tr>';
                             tableBody.append(row);
                         });
+
+                        new DataTable('#example');
+
                     } else {
                         console.log('No data found');
                     }
@@ -146,27 +156,34 @@
                 PhoneNumber: $('#editPhoneNumber').val()
             };
             validateForm(formData);
-            const apiURL = '@apiBaseUrl/api/Customers/UpdateCustomer/' + formData.id;
-            $.ajax({
-                url: apiURL,
-                type: 'POST',
-                contentType: 'application/json',
-                data: JSON.stringify(formData),
-                success: function (response) {
-                    if (!response.result) {
-                        alert(response.message);
-                    }
-                    else {
-                        alert(response.message);
-                        window.location = '/Customer/Index';
+            if (validateForm(formData)) {
 
+                const apiURL = '@apiBaseUrl/api/Customers/UpdateCustomer/' + formData.id;
+
+                $.ajax({
+                    url: apiURL,
+                    type: 'PUT',
+                    contentType: 'application/json',
+                    data: JSON.stringify(formData),
+                    success: function (response) {
+                        if (!response.result) {
+                            alert(response.message);
+                        }
+                        else {
+                            //success redirect to login Page
+                            alert(response.message);
+                            window.location = '/Customer/Index';
+
+                        }
+                        console.log(response);
+                        // Handle success, redirect to another page, show a success message, etc.
+                    },
+                    error: function (xhr, textStatus, errorThrown) {
+                        alert(xhr.responseJSON.message);
+                        // Handle error, display error message, etc.
                     }
-                    console.log(response);
-                },
-                error: function (xhr, textStatus, errorThrown) {
-                    alert(xhr.responseJSON.message);
-                }
-            });
+                });
+            }
         }
 
         function deleteCustomer(customerId) {
@@ -194,52 +211,70 @@
             });
         }
 
+
         function validateForm(formData) {
             debugger;
             let validateName = /^[a-zA-Z]+$/;
-            let validateEmail = /^([a-zA-Z0-9_\-\.]+)@@([a - zA - Z0 - 9_\-\.] +)\.([a-zA-Z]{2,5})$/;
+            let validateEmail = /^[^\s@@]+@@[^\s@@]+\.[^\s@@]+$/;
             let validateNumber = /^[0-9]+$/;
+
+            var firstname = $('#editFirstName').val().trim();
+            var lastname = $('#editLastName').val().trim();
+            var email = $('#editCustomerEmail').val().trim();
+            var phone = $('#editPhoneNumber').val().trim();
 
             let isValid = true;
 
-            if (!validateName.test(formData.FirstName)) {
-                if (formData.FirstName == '') {
-                    document.getElementById("firstNameValidate").innerHTML = "Please enter your first Name";
-                } else {
-                    document.getElementById("firstNameValidate").innerHTML = "Please enter alphabets only";
-                }
+            if (firstname === '') {
+                $('#firstNameValidate').text('Please enter your first name.');
                 document.getElementById("firstNameValidate").style.color = "red";
                 isValid = false;
+            } else if (!validateName.test(firstname)) {
+                $('#firstNameValidate').text('Please enter alphabets only.');
+                document.getElementById("firstNameValidate").style.color = "red";
+                isValid = false;
+            } else {
+                $('#firstNameValidate').text('');
             }
 
-            if (!validateName.test(formData.LastName)) {
-                if (formData.LastName == '') {
-                    document.getElementById("lastNameValidate").innerHTML = "Please enter your last Name";
-                } else {
-                    document.getElementById("lastNameValidate").innerHTML = "Please enter alphabets only";
-                }
+            if (lastname === '') {
+                $('#lastNameValidate').text('Please enter your last name.');
                 document.getElementById("lastNameValidate").style.color = "red";
                 isValid = false;
+            } else if (!validateName.test(lastname)) {
+                $('#lastNameValidate').text('Please enter alphabets only.');
+                document.getElementById("lastNameValidate").style.color = "red";
+                isValid = false;
+            } else {
+                $('#lastNameValidate').text('');
             }
 
-            if (!validateEmail.test(formData.Email)) {
-                if (formData.Email == '') {
-                    document.getElementById("emailValidate").innerHTML = "Please enter your Email";
-                } else {
-                    document.getElementById("emailValidate").innerHTML = "Please enter Email Format: 'example@gmail.com'";
-                }
+            if (email === '') {
+                $('#emailValidate').text('Please enter your email.');
                 document.getElementById("emailValidate").style.color = "red";
                 isValid = false;
+            } else if (!validateEmail.test(email)) {
+                $('#emailValidate').text('Please enter in fromate "eaxmple@@gamil.com".');
+                document.getElementById("emailValidate").style.color = "red";
+                isValid = false;
+            } else {
+                $('#emailValidate').text('');
             }
 
-            if (!validateNumber.test(formData.PhoneNumber)) {
-                if (formData.PhoneNumber == '') {
-                    document.getElementById("phoneValidate").innerHTML = "Please enter your Phone Number";
-                } else {
-                    document.getElementById("phoneValidate").innerHTML = "Please enter Numbers only";
-                }
+            if (phone === '') {
+                $('#phoneValidate').text('Please enter your phone number.');
                 document.getElementById("phoneValidate").style.color = "red";
                 isValid = false;
+            } else if (!validateNumber.test(phone)) {
+                $('#phoneValidate').text('Please enter numbers only.');
+                document.getElementById("phoneValidate").style.color = "red";
+                isValid = false;
+            } else if (phone.length !== 10) {
+                $('#phoneValidate').text('Phone number should be exactly 10 digits.');
+                document.getElementById("phoneValidate").style.color = "red";
+                isValid = false;
+            } else {
+                $('#phoneValidate').text('');
             }
 
             return isValid;

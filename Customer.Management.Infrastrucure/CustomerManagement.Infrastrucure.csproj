@@ -8,6 +8,7 @@
 
   <ItemGroup>
     <PackageReference Include="AutoMapper" Version="13.0.1" />
+    <PackageReference Include="EASendMail" Version="7.9.2.1" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="8.0.4" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Core" Version="2.2.5" />
     <PackageReference Include="NETCore.MailKit" Version="2.1.0" />
@@ -18,7 +19,6 @@
 
   <ItemGroup>
     <Folder Include="Middleware\" />
-    <Folder Include="Services\Email\" />
   </ItemGroup>
 
 </Project>

@@ -5,7 +5,9 @@ using Customer.Management.API.Models.Authentication.SignUp;
 using Customer.Management.INFRASTRUCTRE.Services.Customer;
 using CustomerManagement.Infrastrucure.Interface.Authentication;
 using CustomerManagement.Infrastrucure.Interface.Customer;
+using CustomerManagement.Infrastrucure.Interface.Email;
 using CustomerManagement.Infrastrucure.Services.Authentication;
+using CustomerManagement.Infrastrucure.Services.Email;
 using CustomerManagement.Models;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
@@ -29,7 +31,7 @@ builder.Services.AddSingleton<RequestResponseMiddleware>();
 
 builder.Services.AddScoped<ICustomerServices, CustomerServices>();
 builder.Services.AddScoped<IAuthenticationService, AuthenticationService>();
-
+builder.Services.AddScoped<IEmailService, EmailService>();
 
 builder.Services.AddIdentity<ApplicationUser, IdentityRole>()
     .AddEntityFrameworkStores<ApplicationDbContext>()

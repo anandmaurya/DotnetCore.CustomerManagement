@@ -19,6 +19,7 @@ using System.Text;
 using System.Threading.Tasks;
 using CustomerManagement.Infrastrucure.Models.Common;
 using CustomerManagement.Infrastrucure.Models.Authentication.Login;
+using CustomerManagement.Infrastrucure.Interface.Email;
 
 namespace CustomerManagement.Infrastrucure.Services.Authentication
 {
@@ -28,13 +29,16 @@ namespace CustomerManagement.Infrastrucure.Services.Authentication
         private readonly RoleManager<IdentityRole> _roleManager;
         private readonly IConfiguration _configuration;
         private readonly IMapper _mapper;
+        private readonly IEmailService _email;
 
-        public AuthenticationService(UserManager<ApplicationUser> userManager, RoleManager<IdentityRole> roleManager, IConfiguration configuration, IMapper mapper)
+
+        public AuthenticationService(UserManager<ApplicationUser> userManager, RoleManager<IdentityRole> roleManager, IConfiguration configuration, IMapper mapper, IEmailService email)
         {
             _userManager = userManager;
             _roleManager = roleManager;
             _configuration = configuration;
             _mapper = mapper;
+            _email = email;
         }
 
         public async Task<ServiceResult<LoginResponse>> Login(LoginModel loginModel)
@@ -103,6 +107,8 @@ namespace CustomerManagement.Infrastrucure.Services.Authentication
                     UserName = dto.UserName,
                     PhoneNumber = dto.PhoneNumber,
                 };
+
+                await _email.SendEmail(user.Email, "Unlock Your Account: Password and Username Inside", "This is your Username = " + dto.UserName + " " + "Password = " + dto.Password + " Please do not share UaseNae and Password with any other person. Thank you for your understanding and cooperation.");
 
                 if (await _roleManager.RoleExistsAsync(role))
                 {

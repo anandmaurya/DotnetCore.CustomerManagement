@@ -1,6 +1,10 @@
 ﻿@{
     ViewData["Title"] = "Registration Page";
     Layout = null;
+
+    var configuration = (IConfiguration)ViewContext.HttpContext.RequestServices.GetService(typeof(IConfiguration));
+
+    var apiBaseUrl = configuration["ApiSettings:APIBaseUrl"];
 }
 @await Html.PartialAsync("~/Views/Shared/_CDN.cshtml")
 <div class="container mt-5">
@@ -10,28 +14,32 @@
             <div class="form-group">
                 <label for="name">First name</label>
                 <input type="text" class="form-control" id="firstName" name="firstName" required>
+                <span id="firstNameValidate"></span>
             </div>
             <div class="form-group">
                 <label for="name">Last name</label>
                 <input type="text" class="form-control" id="lastName" name="lastName" required>
+                                <span id="lastNameValidate"></span>
             </div>
             <div class="form-group">
                 <label for="name">Username</label>
                 <input type="text" class="form-control" id="userName" name="userName" required>
+                                <span id="userNameValidate"></span>
             </div>
             <div class="form-group">
                 <label for="email">Email</label>
                 <input type="email" class="form-control" id="email" name="email" required>
+                <span id="emailValidate"></span>
             </div>
             <div class="form-group">
                 <label for="phone">Phone Number</label>
                 <input type="tel" class="form-control" id="phone" name="phone" pattern="[0-9]{10}" required>
-                <small class="form-text text-muted">Please enter 10 digits phone number.</small>
+                <span id="phoneValidate"></span>
             </div>
             <div class="form-group">
                 <label for="password">Password</label>
                 <input type="password" class="form-control" id="password" name="password" minlength="8" required>
-                <small lass="form-text text-muted">Password should be 8 characters it consist of One upper char, One lower, Special character and a digit, i.e = Test@1234 </small>
+                                <span id="passwordValidate"></span>
             </div>
             <button id="registerBtn" type="button" class="btn btn-primary btn-block">Register</button>
         </div>
@@ -44,6 +52,13 @@
 <script type="text/javascript">
 
     $(document).ready(function () {
+
+        $('#firstName').blur(validateForm);
+        $('#lastName').blur(validateForm);
+        $('#email').blur(validateForm);
+        $('#phone').blur(validateForm);
+        $('#password').blur(validateForm);
+        $('#userName').blur(validateForm);
 
         $('#registerBtn').click(function (e) {
             debugger;
@@ -59,101 +74,139 @@
                 LoginUser: $('#userName').val()
             };
             validateForm(formData);
-            $.ajax({
-                url: 'https://localhost:7070/api/Authentication/Registration?role=' + "user",
-                type: 'POST',
-                contentType: 'application/json',
-                data: JSON.stringify(formData),
-                success: function (response) {
-                    if (!response.result) {
-                        alert(response.message);
-                    }
-                    else {
-                        //success redirect to login Page
-                        alert(response.message);
-                        window.location = '/Account/Index';
 
+            if (validateForm(formData)) {
+
+               const loginUrl = '@apiBaseUrl/api/Authentication/Registration?role=' + "user";
+
+                $.ajax({
+                    url: loginUrl,
+                    type: 'POST',
+                    contentType: 'application/json',
+                    data: JSON.stringify(formData),
+                    success: function (response) {
+                        if (!response.result) {
+                            alert(response.message);
+                        }
+                        else {
+                            //success redirect to login Page
+                            alert(response.message);
+                            window.location = '/Account/Index';
+
+                        }
+                        console.log(response);
+                        // Handle success, redirect to another page, show a success message, etc.
+                    },
+                    error: function (xhr, textStatus, errorThrown) {
+                        alert(xhr.responseText);
+                        // Handle error, display error message, etc.
                     }
-                    console.log(response);
-                    // Handle success, redirect to another page, show a success message, etc.
-                },
-                error: function (xhr, textStatus, errorThrown) {
-                    alert(xhr.responseJSON.message);
-                    // Handle error, display error message, etc.
-                }
-            });
+                });
+
+            }
         });
     });
+    
+
     function validateForm(formData) {
         debugger;
         let validateName = /^[a-zA-Z]+$/;
-        let validateEmail = /^([a-zA-Z0-9_\-\.]+)@@([a - zA - Z0 - 9_\-\.] +)\.([a-zA-Z]{2,5})$/;
+        let validateEmail = /^([a-zA-Z0-9_\-\.]+)@@([a-zA-Z0-9_\-\.]+)\.([a-zA-Z]{2,5})$/;
+        // let validateEmail = /^([a-zA-Z0-9_\-\.]+)@@([a-zA-Z0-9_\-\.] +)\.([a-zA-Z]{2,5})$/;
         let validateNumber = /^[0-9]+$/;
-        let validatePassword = /^(?=.[A-Za-z])(?=.\d)[A-Za-z\d]{8,}$/;
+        let validatePassword = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@@$!%*?&])[A-Za-z\d@@$$!%*?&]{8,}$/;
+
+
+        var firstname = $('#firstName').val().trim();
+        var lastname = $('#lastName').val().trim();
+        var email = $('#email').val().trim();
+        var phone = $('#phone').val().trim();
+        var password = $('#password').val().trim();
+        var username = $('#userName').val().trim();
+
 
         let isValid = true;
 
-        if (!validateName.test(formData.FirstName)) {
-            if (formData.FirstName == '') {
-                document.getElementById("firstNameValidate").innerHTML = "Please enter your first Name";
-            } else {
-                document.getElementById("firstNameValidate").innerHTML = "Please enter alphabets only";
-            }
+        if (firstname === '') {
+            $('#firstNameValidate').text('Please enter your first name.');
             document.getElementById("firstNameValidate").style.color = "red";
             isValid = false;
+        } else if (!validateName.test(firstname)) {
+            $('#firstNameValidate').text('Please enter alphabets only.');
+            document.getElementById("firstNameValidate").style.color = "red";
+            isValid = false;
+        } else {
+            $('#firstNameValidate').text('');
         }
 
-        if (!validateName.test(formData.LastName)) {
-            if (formData.LastName == '') {
-                document.getElementById("lastNameValidate").innerHTML = "Please enter your last Name";
-            } else {
-                document.getElementById("lastNameValidate").innerHTML = "Please enter alphabets only";
-            }
+        if (lastname === '') {
+            $('#lastNameValidate').text('Please enter your last name.');
             document.getElementById("lastNameValidate").style.color = "red";
             isValid = false;
+        } else if (!validateName.test(lastname)) {
+            $('#lastNameValidate').text('Please enter alphabets only.');
+            document.getElementById("lastNameValidate").style.color = "red";
+            isValid = false;
+        } else {
+            $('#lastNameValidate').text('');
         }
 
-        if (!validateName.test(formData.UserName)) {
-            if (formData.UserName == '') {
-                document.getElementById("userNameValidate").innerHTML = "Please enter your User Name";
-            } else {
-                document.getElementById("userNameValidate").innerHTML = "Please enter alphabets only";
-            }
+        if (username === '') {
+            $('#userNameValidate').text('Please enter your user name.');
             document.getElementById("userNameValidate").style.color = "red";
             isValid = false;
+        } else if (!validateName.test(username)) {
+            $('#userNameValidate').text('Please enter alphabets only.');
+            document.getElementById("userNameValidate").style.color = "red";
+            isValid = false;
+        } else {
+            $('#userNameValidate').text('');
         }
 
-        if (!validateEmail.test(formData.Email)) {
-            if (formData.Email == '') {
-                document.getElementById("emailValidate").innerHTML = "Please enter your Email";
-            } else {
-                document.getElementById("emailValidate").innerHTML = "Please enter Email Format: 'example@gmail.com'";
-            }
+        if (email === '') {
+            $('#emailValidate').text('Please enter your email.');
             document.getElementById("emailValidate").style.color = "red";
             isValid = false;
+        } else if (!validateEmail.test(email)) {
+            $('#emailValidate').text('Please enter in fromate "eaxmple@@gamil.com".');
+            document.getElementById("emailValidate").style.color = "red";
+            isValid = false;
+        } else {
+            $('#emailValidate').text('');
         }
 
-        if (!validatePassword.test(formData.Password)) {
-            if (formData.Password == '') {
-                document.getElementById("passwordValidate").innerHTML = "Please enter your Password. Password should be 8 characters it consist of One upper char, One lower, Special character and a digit, i.e = Test@1234";
-            } else {
-                document.getElementById("passwordValidate").innerHTML = "Please enter Password";
+        if (phone === '') {
+            $('#phoneValidate').text('Please enter your phone number.');
+            document.getElementById("phoneValidate").style.color = "red";
+            isValid = false;
+        } else if (!validateNumber.test(phone)) {
+            $('#phoneValidate').text('Please enter numbers only.');
+            document.getElementById("phoneValidate").style.color = "red";
+            isValid = false;
+        } else if (phone.length !== 10) {
+            $('#phoneValidate').text('Phone number should be exactly 10 digits.');
+            document.getElementById("phoneValidate").style.color = "red";
+            isValid = false;
+        } else {
+            $('#phoneValidate').text('');
+        }
+
+        if (password === '') {
+            $('#passwordValidate').text('Please enter your password.');
+            document.getElementById("passwordValidate").style.color = "red";
+            isValid = false;
+        } else if (!validatePassword.test(password)) {
+            if (password.length < 8) {
+                $('#passwordValidate').text('Password should be 8 characters it consist of One upper char, One lower, Special character and a digit, i.e = Test@1234.');
             }
             document.getElementById("passwordValidate").style.color = "red";
             isValid = false;
-        }
-
-        if (!validateNumber.test(formData.PhoneNumber)) {
-            if (formData.PhoneNumber == '') {
-                document.getElementById("phoneValidate").innerHTML = "Please enter your Phone Number";
-            } else {
-                document.getElementById("phoneValidate").innerHTML = "Please enter Numbers only";
-            }
-            document.getElementById("phoneValidate").style.color = "red";
-            isValid = false;
+        } else {
+            $('#passwordValidate').text('');
         }
 
         return isValid;
 
     }
+
 </script>

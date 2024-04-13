@@ -36,13 +36,12 @@
             <div class="form-group">
                 <label for="password">Password</label>
                 <input type="text" class="form-control" id="password" name="password" required>
-                @* <span id="userNameValidate"></span> *@
+                                <span id="passwordValidate"></span>
             </div>
             <div class="form-group">
                 <label for="phone">Phone Number</label>
                 <input type="tel" class="form-control" id="phone" name="phone" pattern="[0-9]{10}" required>
                 <span id="phoneValidate"></span>
-                <small class="form-text text-muted">Please enter 10 digits phone number.</small>
             </div>
             <button id="registerBtn" type="button" class="btn btn-primary btn-block">Create</button>
         </div>
@@ -52,6 +51,12 @@
 @section Scripts {
     <script type="text/javascript">
         $(document).ready(function () {
+
+            $('#firstName').blur(validateForm);
+            $('#lastName').blur(validateForm);
+            $('#email').blur(validateForm);
+            $('#phone').blur(validateForm);
+        $('#password').blur(validateForm);
 
             $('#registerBtn').click(function (e) {
                 debugger;
@@ -65,6 +70,9 @@
                     // LoginUser: $('#loginUserName').val(),
                     Password: $('#password').val()
                 };
+
+                validateForm(customer);
+
                 // Convert payload to JSON string
                 debugger;
                 if (validateForm(customer)) {
@@ -100,62 +108,90 @@
         });
         // Function to encrypt using AES algorithm
 
+
         function validateForm(formData) {
             debugger;
             let validateName = /^[a-zA-Z]+$/;
-            let validateEmail = /^([a-zA-Z0-9_\-\.]+)@@([a - zA - Z0 - 9_\-\.] +)\.([a-zA-Z]{2,5})$/;
+            let validateEmail = /^[^\s@@]+@@[^\s@@]+\.[^\s@@]+$/;
             let validateNumber = /^[0-9]+$/;
+        let validatePassword = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@@$!%*?&])[A-Za-z\d@@$$!%*?&]{8,}$/;
+
+            var firstname = $('#firstName').val().trim();
+            var lastname = $('#lastName').val().trim();
+            var email = $('#email').val().trim();
+        var password = $('#password').val().trim();
+            var phone = $('#phone').val().trim();
 
             let isValid = true;
 
-            if (!validateName.test(formData.FirstName)) {
-                if (formData.FirstName == '') {
-                    document.getElementById("firstNameValidate").innerHTML = "Please enter your first Name";
-                }
-                // else {
-                //     document.getElementById("firstNameValidate").innerHTML = "Please enter alphabets only";
-                // }
+            if (firstname === '') {
+                $('#firstNameValidate').text('Please enter your first name.');
                 document.getElementById("firstNameValidate").style.color = "red";
                 isValid = false;
-            }w
+            } else if (!validateName.test(firstname)) {
+                $('#firstNameValidate').text('Please enter alphabets only.');
+                document.getElementById("firstNameValidate").style.color = "red";
+                isValid = false;
+            } else {
+                $('#firstNameValidate').text('');
+            }
 
-            if (!validateName.test(formData.LastName)) {
-                if (formData.LastName == '') {
-                    document.getElementById("lastNameValidate").innerHTML = "Please enter your last Name";
-                } 
-                // else 
-                // {
-                //     document.getElementById("lastNameValidate").innerHTML = "Please enter alphabets only";
-                // }
+            if (lastname === '') {
+                $('#lastNameValidate').text('Please enter your last name.');
                 document.getElementById("lastNameValidate").style.color = "red";
                 isValid = false;
+            } else if (!validateName.test(lastname)) {
+                $('#lastNameValidate').text('Please enter alphabets only.');
+                document.getElementById("lastNameValidate").style.color = "red";
+                isValid = false;
+            } else {
+                $('#lastNameValidate').text('');
             }
 
-            if (!validateEmail.test(formData.Email)) {
-                if (formData.Email == '') {
-                    document.getElementById("emailValidate").innerHTML = "Please enter your Email";
-                } 
-                // else 
-                // {
-                //     document.getElementById("emailValidate").innerHTML = "Please enter Email Format: 'example@gmail.com'";
-                // }
+            if (email === '') {
+                $('#emailValidate').text('Please enter your email.');
                 document.getElementById("emailValidate").style.color = "red";
                 isValid = false;
+            } else if (!validateEmail.test(email)) {
+                $('#emailValidate').text('Please enter in fromate "eaxmple@@gamil.com".');
+                document.getElementById("emailValidate").style.color = "red";
+                isValid = false;
+            } else {
+                $('#emailValidate').text('');
             }
 
-            if (!validateNumber.test(formData.PhoneNumber)) {
-                if (formData.PhoneNumber == '') {
-                    document.getElementById("phoneValidate").innerHTML = "Please enter your Phone Number";
-                }
-                // else {
-                //     document.getElementById("phoneValidate").innerHTML = "Please enter Numbers only";
-                // }
+            if (phone === '') {
+                $('#phoneValidate').text('Please enter your phone number.');
                 document.getElementById("phoneValidate").style.color = "red";
                 isValid = false;
+            } else if (!validateNumber.test(phone)) {
+                $('#phoneValidate').text('Please enter numbers only.');
+                document.getElementById("phoneValidate").style.color = "red";
+                isValid = false;
+            } else if (phone.length !== 10) {
+                $('#phoneValidate').text('Phone number should be exactly 10 digits.');
+                document.getElementById("phoneValidate").style.color = "red";
+                isValid = false;
+            } else {
+                $('#phoneValidate').text('');
+            }
+
+            if (password === '') {
+                $('#passwordValidate').text('Please enter your password.');
+                document.getElementById("passwordValidate").style.color = "red";
+                isValid = false;
+            } else if (!validatePassword.test(password)) {
+                if (password.length < 8) {
+                    $('#passwordValidate').text('Password should be 8 characters it consist of One upper char, One lower, Special character and a digit, i.e = Test@1234.');
+                }
+                document.getElementById("passwordValidate").style.color = "red";
+                isValid = false;
+            } else {
+                $('#passwordValidate').text('');
             }
 
             return isValid;
-
+            
         }
 
 

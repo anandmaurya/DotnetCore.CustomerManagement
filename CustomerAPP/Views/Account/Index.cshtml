@@ -1,10 +1,9 @@
 ﻿@{
     ViewData["Title"] = "Login Page";
     Layout = null;
-    // Inject IConfiguration into the view
+
     var configuration = (IConfiguration)ViewContext.HttpContext.RequestServices.GetService(typeof(IConfiguration));
 
-    // Read the API base URL from appsettings.json
     var apiBaseUrl = configuration["ApiSettings:APIBaseUrl"];
 }
 @await Html.PartialAsync("~/Views/Shared/_CDN.cshtml")
@@ -19,13 +18,15 @@
                     <div class="form-group">
                         <label for="username">Username</label>
                         <input type="text" class="form-control" id="loginUsername" placeholder="Enter username">
+                        <span id="userNameValidate"></span>
                     </div>
                     <div class="form-group">
                         <label for="password">Password</label>
                         <input type="password" class="form-control" id="password" placeholder="Enter password">
+                        <span id="passwordValidate"></span>
                     </div>
-                    <button id="loginBtn" type="button" class="btn btn-primary">Login</button>
-                    <a asp-controller="Account" asp-action="Registration">Register</a>
+                    <button id="loginBtn" type="button" class="btn btn-primary mt-3">Login</button>
+                    <a class="btn btn-primary mt-3" asp-controller="Account" asp-action="Registration">Register</a>
                 </div>
             </div>
         </div>
@@ -39,6 +40,9 @@
 <script type="text/javascript">
 
     $(document).ready(function () {
+
+        $('#loginUsername').blur(validateForm);
+        $('#password').blur(validateForm);
 
         $('#loginBtn').click(function (e) {
             debugger;
@@ -70,7 +74,7 @@
                     // Handle success, redirect to another page, show a success message, etc.
                 },
                 error: function (xhr, textStatus, errorThrown) {
-                    alert(xhr.responseJSON.message);
+                    alert(xhr.responseText);
                     // Handle error, display error message, etc.
                 }
             });
@@ -85,4 +89,46 @@
             }
         }
     });
+
+
+    function validateForm(formData) {
+        debugger;
+
+        let validateName = /^[a-zA-Z]+$/;
+        let validatePassword = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@@$!%*?&])[A-Za-z\d@@$$!%*?&]{8,}$/;
+
+        var username = $('#loginUsername').val().trim();
+        var password = $('#password').val().trim();
+
+        var isValid = true;
+
+        if (username === '') {
+            $('#userNameValidate').text('Please enter your username.');
+            document.getElementById("userNameValidate").style.color = "red";
+            isValid = false;
+        } else if (!validateName.test(username)) {
+            $('#userNameValidate').text('Please enter alphabets only.');
+            document.getElementById("userNameValidate").style.color = "red";
+            isValid = false;
+        } else {
+            $('#userNameValidate').text('');
+        }
+
+        if (password === '') {
+            $('#passwordValidate').text('Please enter your password.');
+            document.getElementById("passwordValidate").style.color = "red";
+            isValid = false;
+        } else if (!validatePassword.test(password)) {
+            if (password.length < 8) {
+                $('#passwordValidate').text('Password should be 8 characters it consist of One upper char, One lower, Special character and a digit, i.e = Test@1234.');
+            }
+            document.getElementById("passwordValidate").style.color = "red";
+            isValid = false;
+        } else {
+            $('#passwordValidate').text('');
+        }
+
+        return isValid;
+
+    }
 </script>

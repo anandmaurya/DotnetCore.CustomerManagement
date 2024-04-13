@@ -101,7 +101,7 @@ namespace Customer.Management.INFRASTRUCTRE.Services.Customer
                     return res;
                 }
 
-                customers.IsActive = false;
+                customers.IsActive = true;
                 customers.Updated = DateTime.UtcNow;
                 customers.UpdatedBy = 1;
 
