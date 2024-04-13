@@ -47,25 +47,28 @@
         $('#loginBtn').click(function (e) {
             debugger;
             e.preventDefault(); // prevent default form submission
-
+            debugger;
             var formData = {
                 UserName: $('#loginUsername').val(),
                 Password: $('#password').val(),
             };
-            const loginUrl = '@apiBaseUrl/api/Authentication/Login';
+            // const loginUrl = '@apiBaseUrl/api/Authentication/Login';
+            const loginUrl = '/Account/Authenticate';
             $.ajax({
                 url: loginUrl,
                 type: 'POST',
                 contentType: 'application/json',
                 data: JSON.stringify(formData),
                 success: function (response) {
+                    debugger;
                     if (!response.result) {
                         // Set session item
-                        console.log(user);
+                        console.log(response.result);
+                        alert(response.result);
                     }
                     else {
                         //success redirect to Dashboard Page
-                        setSessionItem('jwtToken', response.token);
+                        setSessionItem('jwtToken', response.apiToken);
                         setSessionItem('expiration', response.expiration);
                         window.location = '/Customer/Index';
 

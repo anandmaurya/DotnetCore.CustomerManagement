@@ -1,20 +1,25 @@
 ﻿using CustomerAPP.Helper;
 using CustomerAPP.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using System.Net.Http;
 using System.Net.Http.Json;
+using System.Security.Claims;
 using System.Text;
 using System.Text.Json.Serialization;
 
 namespace CustomerAPP.Controllers
 {
+    [Authorize]
     public class CustomerController : Controller
     {
         private readonly HttpClient _httpClient;
-        public CustomerController(HttpClient httpClient)
+        private readonly IConfiguration _configuration;
+        public CustomerController(HttpClient httpClient, IConfiguration configuration)
         {
             _httpClient = httpClient ?? throw new ArgumentNullException(nameof(httpClient));
+            _configuration = configuration;
         }
         public IActionResult Index()
         {
@@ -35,8 +40,9 @@ namespace CustomerAPP.Controllers
             }
 
             var jsonContent = JsonConvert.SerializeObject(customer);
+            string apiURL = $"{_configuration["ApiSettings:APIBaseUrl"]}/api/Customers/CreateCustomer";
 
-            var request = new HttpRequestMessage(HttpMethod.Post, "https://localhost:7070/api/Customers/CreateCustomer")
+            var request = new HttpRequestMessage(HttpMethod.Post, apiURL)
             {
                 Content = new StringContent(jsonContent, Encoding.UTF8, "application/json")
             };
@@ -45,15 +51,11 @@ namespace CustomerAPP.Controllers
 
             if (response.IsSuccessStatusCode)
             {
-                // Parse the response if needed
                 string responseData = await response.Content.ReadAsStringAsync();
-                // Do something with responseData
-                //return Ok(responseData);
             }
             else
             {
                 // Handle error response
-                //  return StatusCode((int)response.StatusCode);
             }
 
 

@@ -28,10 +28,10 @@
                 <input type="email" class="form-control" id="email" name="email" required>
                 <span id="emailValidate"></span>
             </div>
-           @*  <div class="form-group">
-                <label for="loginUserName">Login user</label>
-                <input type="text" class="form-control" id="loginUserName" name="loginUserName" required>
-                <span id="userNameValidate"></span>
+            @*  <div class="form-group">
+            <label for="loginUserName">Login user</label>
+            <input type="text" class="form-control" id="loginUserName" name="loginUserName" required>
+            <span id="userNameValidate"></span>
             </div> *@
             <div class="form-group">
                 <label for="password">Password</label>
@@ -70,9 +70,6 @@
                     // LoginUser: $('#loginUserName').val(),
                     Password: $('#password').val()
                 };
-
-                validateForm(customer);
-
                 // Convert payload to JSON string
                 debugger;
                 if (validateForm(customer)) {
@@ -107,7 +104,6 @@
             });
         });
         // Function to encrypt using AES algorithm
-
 
         function validateForm(formData) {
             debugger;

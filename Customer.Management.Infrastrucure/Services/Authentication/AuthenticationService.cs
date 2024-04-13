@@ -64,14 +64,16 @@ namespace CustomerManagement.Infrastrucure.Services.Authentication
 
                     var jwtToken = GetToken(authClaims);
 
-                    var response = new LoginResponse
+                    var tokenResponse = new LoginResponse
                     {
                         Token = new JwtSecurityTokenHandler().WriteToken(jwtToken),
                         Expiration = jwtToken.ValidTo,
-                        Result = true
+                        Result = true,
+                        UserEmail = user.Email ?? "",
+                        UserName = user.UserName
                     };
 
-                    return ServiceResult<LoginResponse>.CreateSuccess(response, "Login success");
+                    return ServiceResult<LoginResponse>.CreateSuccess(tokenResponse, "Login success");
                 }
                 else
                 {
